@@ -7,21 +7,21 @@ export default function AboutPage() {
       nim : '10123280',
       // role: 'Full Stack Developer',
       contribution: '100%', 
-      image: '/images/hazim.png'
+      image: '/images/hazim.jpg'
     },
     { 
       name: 'Sierly Putri Anjani', 
       nim : '10123915',
       // role: 'Developer',
       contribution: '100%', 
-      image: '/images/sierly.png' 
+      image: '/images/sierly.jpg' 
     },
     { 
       name: 'Muhamad Iqbal Reza', 
       nim : '10123292',
       // role: 'Developer',
       contribution: '100%', 
-      image: '/images/iqbal.png' 
+      image: '/images/iqbal.jpg' 
     },
   ];
 

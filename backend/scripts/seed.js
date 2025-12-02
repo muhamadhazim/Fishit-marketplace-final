@@ -22,9 +22,9 @@ async function main() {
   // Create default admin user
   let admin = await User.findOne({ username: 'admin' })
   if (!admin) {
-    const password_hash = hashPassword('admin')
+    const password_hash = hashPassword('admin1234')
     admin = await User.create({ username: 'admin', password_hash, role: 'admin' })
-    console.log('✅ Admin user created (username: admin, password: admin)')
+    console.log('✅ Admin user created (username: admin, password: admin1234)')
   } else {
     console.log('ℹ️  Admin user already exists')
   }
@@ -103,7 +103,7 @@ async function main() {
 
   console.log('\n🎉 Database seeded successfully!')
   console.log('\n📝 Quick Start:')
-  console.log('   Admin Login: username = admin, password = admin')
+  console.log('   Admin Login: username = admin, password = admin1234')
   console.log('   Frontend: http://localhost:3000')
   console.log('   Backend: http://localhost:4000')
   console.log('\n⚠️  Remember to change admin password in production!\n')
