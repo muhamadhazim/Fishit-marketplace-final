@@ -101,8 +101,11 @@ exports.createTransaction = async (req, res) => {
 
         await newTransaction.save();
 
-        // Send Email
-        await sendInvoiceEmail(email, newTransaction);
+        // Send Email in Background (non-blocking)
+        sendInvoiceEmail(email, newTransaction).catch(err => {
+            console.error('Email sending failed (background):', err.message);
+            // Email failure doesn't affect transaction success
+        });
 
         res.status(201).json({
             message: 'Transaction created successfully',
