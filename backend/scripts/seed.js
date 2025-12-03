@@ -111,6 +111,7 @@ async function main() {
   process.exit(0)
 }
 
+
 main().catch((err) => {
   console.error('❌ Seeding failed:', err)
   process.exit(1)
