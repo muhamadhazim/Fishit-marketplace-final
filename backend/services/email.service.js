@@ -1,14 +1,11 @@
-const nodemailer = require('nodemailer');
+const SibApiV3Sdk = require('sib-api-v3-sdk');
 
-const transporter = nodemailer.createTransport({
-  host: 'smtp-relay.brevo.com',
-  port: 587,
-  secure: false,
-  auth: {
-    user: process.env.BREVO_SMTP_USER,
-    pass: process.env.BREVO_SMTP_KEY
-  }
-});
+// Initialize Brevo API
+const defaultClient = SibApiV3Sdk.ApiClient.instance;
+const apiKey = defaultClient.authentications['api-key'];
+apiKey.apiKey = process.env.BREVO_API_KEY;
+
+const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
 
 const sendInvoiceEmail = async (to, transaction) => {
   const { invoice_number, unique_code, total_transfer, payment_deadline, items } = transaction;
@@ -84,32 +81,31 @@ const sendInvoiceEmail = async (to, transaction) => {
     `;
 
   try {
-    if (!process.env.BREVO_SMTP_USER || !process.env.BREVO_SMTP_KEY) {
+    if (!process.env.BREVO_API_KEY) {
+      console.error('❌ BREVO_API_KEY not set');
       return false;
     }
 
-    const senderEmail = process.env.BREVO_SENDER_EMAIL || process.env.BREVO_SMTP_USER;
+    const senderEmail = process.env.BREVO_SENDER_EMAIL || 'noreply@fishit-marketplace.com';
 
-    const mailOptions = {
-      from: {
-        name: 'Fishit Marketplace',
-        address: senderEmail
-      },
-      to: to,
-      replyTo: senderEmail,
-      subject: `Invoice ${invoice_number} - Fishit Marketplace`,
-      html: htmlContent,
-      headers: {
-        'X-Priority': '1',
-        'X-MSMail-Priority': 'High',
-        'Importance': 'high'
-      }
+    const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
+
+    sendSmtpEmail.sender = {
+      name: 'Fishit Marketplace',
+      email: senderEmail
     };
+    sendSmtpEmail.to = [{ email: to }];
+    sendSmtpEmail.subject = `Invoice ${invoice_number} - Fishit Marketplace`;
+    sendSmtpEmail.htmlContent = htmlContent;
 
-    await transporter.sendMail(mailOptions);
+    await apiInstance.sendTransacEmail(sendSmtpEmail);
+    console.log('✅ Email sent successfully via Brevo API to:', to);
     return true;
   } catch (error) {
     console.error('❌ Email error:', error.message);
+    if (error.response) {
+      console.error('Response error:', error.response.text);
+    }
     return false;
   }
 };
