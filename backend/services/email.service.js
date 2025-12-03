@@ -40,6 +40,23 @@ const sendInvoiceEmail = async (to, transaction) => {
                     <p style="color: #e0f2fe; margin: 15px 0 5px 0; font-size: 13px;">Kode Unik: <strong style="color: #ffffff;">${unique_code}</strong></p>
                 </div>
 
+                <!-- Bank Account Details -->
+                <div style="background-color: #f0f9ff; border: 2px solid #0891b2; padding: 20px; margin: 20px 0; border-radius: 8px;">
+                    <h3 style="color: #0891b2; margin: 0 0 15px 0; font-size: 18px;">🏦 Transfer ke Rekening:</h3>
+                    
+                    <div style="margin-bottom: 15px; padding: 12px; background-color: #ffffff; border-radius: 4px;">
+                        <p style="color: #64748b; margin: 0 0 5px 0; font-size: 13px;">Bank BCA</p>
+                        <p style="color: #0f172a; margin: 0; font-size: 20px; font-weight: bold;">10123280</p>
+                        <p style="color: #64748b; margin: 5px 0 0 0; font-size: 14px;">a.n. <strong>Marketplace Fishit</strong></p>
+                    </div>
+                    
+                    <div style="padding: 12px; background-color: #ffffff; border-radius: 4px;">
+                        <p style="color: #64748b; margin: 0 0 5px 0; font-size: 13px;">Bank BNI</p>
+                        <p style="color: #0f172a; margin: 0; font-size: 20px; font-weight: bold;">1010123280</p>
+                        <p style="color: #64748b; margin: 5px 0 0 0; font-size: 14px;">a.n. <strong>Marketplace Fishit</strong></p>
+                    </div>
+                </div>
+
                 <!-- Deadline Warning -->
                 <div style="background-color: #fef3c7; border-left: 4px solid #f59e0b; padding: 15px; margin: 20px 0; border-radius: 4px;">
                     <p style="color: #92400e; margin: 0; font-size: 14px;">

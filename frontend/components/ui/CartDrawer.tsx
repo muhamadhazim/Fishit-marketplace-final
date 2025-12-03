@@ -254,6 +254,33 @@ export default function CartDrawer() {
                         <p className="text-xs text-web3-text-secondary uppercase tracking-wide mb-1">Payment Deadline</p>
                         <p className="text-white font-semibold">{formatDate(invoiceData.payment_deadline)}</p>
                       </div>
+
+                      <div className="mt-6 rounded-xl bg-gradient-to-br from-web3-accent-cyan/10 to-web3-accent-purple/10 border border-web3-accent-cyan/30 p-5">
+                        <p className="text-sm font-bold text-web3-accent-cyan mb-4 flex items-center gap-2">
+                          <span className="text-lg">🏦</span> Transfer to Bank Account:
+                        </p>
+                        
+                        <div className="space-y-3">
+                          <div className="glass-card rounded-xl p-4 border border-white/10">
+                            <p className="text-xs text-web3-text-secondary mb-1">Bank BCA</p>
+                            <p className="text-xl font-bold text-white font-mono">10123280</p>
+                            <p className="text-xs text-web3-text-muted mt-1">a.n. <span className="text-web3-accent-cyan font-semibold">Marketplace Fishit</span></p>
+                          </div>
+                          
+                          <div className="glass-card rounded-xl p-4 border border-white/10">
+                            <p className="text-xs text-web3-text-secondary mb-1">Bank BNI</p>
+                            <p className="text-xl font-bold text-white font-mono">1010123280</p>
+                            <p className="text-xs text-web3-text-muted mt-1">a.n. <span className="text-web3-accent-cyan font-semibold">Marketplace Fishit</span></p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="mt-4 rounded-xl bg-yellow-500/10 border border-yellow-500/30 p-4">
+                        <p className="text-xs text-yellow-400 flex items-start gap-2">
+                          <span className="text-sm">⚠️</span>
+                          <span>Transfer with <strong>EXACT amount</strong> (including unique code) for automatic verification.</span>
+                        </p>
+                      </div>
                     </div>
 
                     <p className="mt-6 text-sm text-web3-text-secondary">
