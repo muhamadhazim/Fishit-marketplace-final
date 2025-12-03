@@ -24,9 +24,9 @@ async function main() {
   if (!admin) {
     const password_hash = hashPassword('admin1234')
     admin = await User.create({ username: 'admin', password_hash, role: 'admin' })
-    console.log('✅ Admin user created (username: admin, password: admin1234)')
+    // console.log('✅ Admin user created (username: admin, password: admin1234)')
   } else {
-    console.log('ℹ️  Admin user already exists')
+    // console.log('ℹ️  Admin user already exists')
   }
 
   // Create categories
@@ -53,7 +53,7 @@ async function main() {
       name: 'Starter Grinder Account',
       category_slug: 'high-tier-accounts',
       price: 50000,
-      image_url: '/uploads/starter-account.png',
+      image_url: `${process.env.BASE_URL || 'http://localhost:4000'}/uploads/starter-account.png`,
       stock: 10,
       specifications: {
         Rod: 'Ghostfinn Rod',
@@ -67,7 +67,7 @@ async function main() {
       name: 'Secret Fish: The Kraken',
       category_slug: 'secret-fish',
       price: 150000,
-      image_url: '/uploads/secret-fish.png',
+      image_url: `${process.env.BASE_URL || 'http://localhost:4000'}/uploads/secret-fish.png`,
       stock: 3,
       specifications: {
         Rarity: 'Secret',
@@ -81,7 +81,7 @@ async function main() {
       name: '5 Million C$ Package',
       category_slug: 'coins-cs',
       price: 200000,
-      image_url: '/uploads/coins-currency.png',
+      image_url: `${process.env.BASE_URL || 'http://localhost:4000'}/uploads/coins-currency.png`,
       stock: 999,
       specifications: {
         Amount: '5,000,000 C$',
