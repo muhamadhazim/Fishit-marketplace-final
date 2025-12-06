@@ -13,6 +13,7 @@ frontend/.env.*
 
 # Uploads & User Data
 backend/uploads/*
+backend/manage_db.js
 !backend/uploads/.gitkeep
 # Allow seed demo images (for initial setup)
 !backend/uploads/starter-account.png

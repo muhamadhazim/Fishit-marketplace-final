@@ -3,57 +3,35 @@
 import Hero from "@/components/ui/Hero";
 import GameCard from "@/components/ui/GameCard";
 import SearchFilter from "@/components/ui/SearchFilter";
-import { useState, useEffect } from "react";
-import { api } from "@/lib/api";
-
-type Product = {
-  id: string;
-  name: string;
-  price: number;
-  image_url: string;
-  specifications: Record<string, unknown>;
-  category: { name: string; slug: string } | null;
-};
+import { useState, useMemo } from "react";
+import { useProducts } from "@/hooks/useProducts";
 
 export default function Home() {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
-  const [categories, setCategories] = useState<string[]>([]);
+  const { products, loading } = useProducts();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("all");
 
-  useEffect(() => {
-    async function fetchProducts() {
-      try {
-        const res = await api.get('/api/products');
-        const data = res.data as { products: Product[] };
-        setProducts(data.products);
-        setFilteredProducts(data.products);
-        
-        // Extract unique categories
-        const cats = Array.from(new Set(data.products.map(p => p.category?.name).filter(Boolean))) as string[];
-        setCategories(cats);
-      } catch (error) {
-        console.error("Failed to fetch products:", error);
-      }
-    }
-    fetchProducts();
-  }, []);
+  const categories = useMemo(() => {
+    return Array.from(new Set(products.map(p => p.category?.name).filter(Boolean))) as string[];
+  }, [products]);
+
+  const filteredProducts = useMemo(() => {
+    return products.filter(p => {
+      const lowerQuery = searchQuery.toLowerCase();
+      const matchesSearch = p.name.toLowerCase().includes(lowerQuery) || 
+                            p.category?.name.toLowerCase().includes(lowerQuery);
+      const matchesCategory = selectedCategory === "all" || p.category?.name === selectedCategory;
+      
+      return matchesSearch && matchesCategory;
+    });
+  }, [products, searchQuery, selectedCategory]);
 
   const handleSearch = (query: string) => {
-    const lowerQuery = query.toLowerCase();
-    const filtered = products.filter(p => 
-      p.name.toLowerCase().includes(lowerQuery) || 
-      p.category?.name.toLowerCase().includes(lowerQuery)
-    );
-    setFilteredProducts(filtered);
+    setSearchQuery(query);
   };
 
   const handleFilterChange = (category: string) => {
-    if (category === "all") {
-      setFilteredProducts(products);
-    } else {
-      const filtered = products.filter(p => p.category?.name === category);
-      setFilteredProducts(filtered);
-    }
+    setSelectedCategory(category);
   };
 
   return (
@@ -70,7 +48,11 @@ export default function Home() {
           categories={categories} 
         />
 
-        {filteredProducts.length === 0 ? (
+        {loading ? (
+          <div className="text-center py-20">
+            <p className="text-xl text-slate-400">Loading products...</p>
+          </div>
+        ) : filteredProducts.length === 0 ? (
           <div className="text-center py-20">
             <p className="text-xl text-slate-400">No products found.</p>
           </div>

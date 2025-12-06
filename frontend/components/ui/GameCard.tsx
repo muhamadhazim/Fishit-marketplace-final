@@ -5,17 +5,7 @@ import Image from 'next/image'
 import { ShoppingCart, Star, Zap, Fish, Gamepad2 } from "lucide-react";
 import { formatIDR } from "@/lib/currency";
 import { useCart } from '@/store/cart'
-
-type Product = {
-  _id?: string
-  id: string
-  name: string
-  price: number
-  image_url: string;
-  stock?: number;
-  specifications: Record<string, unknown>;
-  category: { name: string; slug: string } | null;
-}
+import { Product } from '@/types'
 
 function borderGlow(slug?: string) {
   if (slug === 'secret-fish') return 'hover:border-red-500 hover:shadow-secret'
