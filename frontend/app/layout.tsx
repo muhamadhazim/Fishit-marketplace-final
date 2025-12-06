@@ -17,6 +17,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Fishit Marketplace",
   description: "Topup Game Roblox Terpercaya",
+  verification: {
+    google: "8rd5dBDaRpEkgnmzNdJiyUDO4yVN-xIv2cm7jh47MOg",
+  },
 };
 
 export default function RootLayout({
