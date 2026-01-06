@@ -4,7 +4,8 @@ import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 
-const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api'
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:4000';
+const API = `${API_BASE.replace(/\/$/, '')}/api`;
 
 export default function VerifyEmailPage() {
   const params = useParams()

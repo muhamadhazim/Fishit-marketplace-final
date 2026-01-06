@@ -2,7 +2,8 @@ import type { Metadata, ResolvingMetadata } from 'next';
 import ProductDetailClient, { Product } from '@/components/product/ProductDetailClient';
 import { AlertCircle } from 'lucide-react';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:4000';
+const API_URL = `${API_BASE.replace(/\/$/, '')}/api`;
 
 async function getProduct(id: string): Promise<Product | null> {
   try {

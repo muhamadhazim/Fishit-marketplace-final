@@ -1,6 +1,7 @@
 import { MetadataRoute } from 'next';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:4000';
+const API_URL = `${API_BASE.replace(/\/$/, '')}/api`;
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://fishit-if7.vercel.app';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

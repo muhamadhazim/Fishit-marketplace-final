@@ -5,7 +5,8 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { Clock, ExternalLink, CheckCircle, AlertCircle, RefreshCw } from "lucide-react";
 import { motion } from "framer-motion";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:4000';
+const API_URL = `${API_BASE.replace(/\/$/, '')}/api`;
 
 function WaitingContent() {
   const searchParams = useSearchParams();
