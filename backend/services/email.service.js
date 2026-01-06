@@ -105,34 +105,31 @@ const sendPaymentEmail = async (to, transaction) => {
     `;
 
   try {
-    if (!process.env.BREVO_SMTP_USER || !process.env.BREVO_SMTP_KEY) {
-      console.log('⚠️ Brevo SMTP not configured, skipping email');
+    if (!process.env.BREVO_API_KEY) {
+      console.error('❌ BREVO_API_KEY not set');
       return false;
     }
 
-    const senderEmail = process.env.BREVO_SENDER_EMAIL || process.env.BREVO_SMTP_USER;
+    const senderEmail = process.env.BREVO_SENDER_EMAIL || 'noreply@fishit-marketplace.com';
 
-    const mailOptions = {
-      from: {
-        name: 'Fishit Marketplace',
-        address: senderEmail
-      },
-      to: to,
-      replyTo: senderEmail,
-      subject: `Pesanan ${invoice_number} - Segera Bayar | Fishit Marketplace`,
-      html: htmlContent,
-      headers: {
-        'X-Priority': '1',
-        'X-MSMail-Priority': 'High',
-        'Importance': 'high'
-      }
+    const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
+
+    sendSmtpEmail.sender = {
+      name: 'Fishit Marketplace',
+      email: senderEmail
     };
+    sendSmtpEmail.to = [{ email: to }];
+    sendSmtpEmail.subject = `Pesanan ${invoice_number} - Segera Bayar | Fishit Marketplace`;
+    sendSmtpEmail.htmlContent = htmlContent;
 
-    await transporter.sendMail(mailOptions);
+    await apiInstance.sendTransacEmail(sendSmtpEmail);
     console.log(`✅ Payment email sent to ${to}`);
     return true;
   } catch (error) {
     console.error('❌ Email error:', error.message);
+    if (error.response) {
+      console.error('Response error:', error.response.text);
+    }
     return false;
   }
 };
@@ -325,29 +322,31 @@ const sendVerificationEmail = async (to, { username, verificationUrl }) => {
     `;
 
   try {
-    if (!process.env.BREVO_SMTP_USER || !process.env.BREVO_SMTP_KEY) {
-      console.log('⚠️ Brevo SMTP not configured, skipping verification email');
+    if (!process.env.BREVO_API_KEY) {
+      console.error('❌ BREVO_API_KEY not set');
       return false;
     }
 
-    const senderEmail = process.env.BREVO_SENDER_EMAIL || process.env.BREVO_SMTP_USER;
+    const senderEmail = process.env.BREVO_SENDER_EMAIL || 'noreply@fishit-marketplace.com';
 
-    const mailOptions = {
-      from: {
-        name: 'Fishit Marketplace',
-        address: senderEmail
-      },
-      to: to,
-      replyTo: senderEmail,
-      subject: 'Verifikasi Email Anda - Fishit Marketplace',
-      html: htmlContent
+    const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
+
+    sendSmtpEmail.sender = {
+      name: 'Fishit Marketplace',
+      email: senderEmail
     };
+    sendSmtpEmail.to = [{ email: to }];
+    sendSmtpEmail.subject = 'Verifikasi Email Anda - Fishit Marketplace';
+    sendSmtpEmail.htmlContent = htmlContent;
 
-    await transporter.sendMail(mailOptions);
+    await apiInstance.sendTransacEmail(sendSmtpEmail);
     console.log(`✅ Verification email sent to ${to}`);
     return true;
   } catch (error) {
     console.error('❌ Verification email error:', error.message);
+    if (error.response) {
+      console.error('Response error:', error.response.text);
+    }
     return false;
   }
 };
