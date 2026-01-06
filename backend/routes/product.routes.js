@@ -343,18 +343,15 @@ router.delete('/:id', auth, async (req, res) => {
             return res.status(403).json({ error: 'Product is suspended by admin. Cannot delete.' });
         }
 
-        if (product.image_url && product.image_url.includes('/uploads/')) {
+        // Delete image from Cloudinary if exists
+        if (product.image_url && product.image_url.includes('cloudinary.com')) {
             try {
-                const filename = product.image_url.split('/uploads/')[1];
-                if (filename) {
-                    const filePath = path.join(__dirname, '..', 'uploads', filename);
-                    if (fs.existsSync(filePath)) {
-                        fs.unlinkSync(filePath);
-                        console.log(`Deleted image file: ${filePath}`);
-                    }
-                }
+                const { deleteImage } = require('../services/cloudinary.service');
+                await deleteImage(product.image_url);
+                console.log(`Deleted Cloudinary image: ${product.image_url}`);
             } catch (err) {
-                console.error('Error deleting image file:', err);
+                console.error('Error deleting Cloudinary image:', err);
+                // Continue with product deletion even if image delete fails
             }
         }
 
