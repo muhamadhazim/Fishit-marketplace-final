@@ -11,6 +11,14 @@ frontend/.env
 frontend/.env.*
 !frontend/.env.example
 
+# Security - API Keys & Secrets
+**/*secret*
+**/*credentials*
+**/*private*
+*.pem
+*.key
+*.cert
+
 # Uploads & User Data
 backend/uploads/*
 backend/manage_db.js
@@ -38,6 +46,8 @@ package-lock.json
 frontend/.next/
 frontend/out/
 frontend/build/
+.next/
+out/
 
 # Production builds
 dist/
@@ -97,3 +107,6 @@ coverage/
 
 .vercel
 .turbo
+
+# Factory AI artifacts (if using)
+.factory/artifacts/
