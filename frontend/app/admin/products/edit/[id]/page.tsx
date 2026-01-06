@@ -5,6 +5,7 @@ import api from "@/lib/api";
 import { useAuth, type AuthState } from "@/store/auth";
 import { ArrowLeft, Plus, Trash2 } from "lucide-react";
 import Link from "next/link";
+import { useToast } from "@/components/ui/Toast";
 
 type Category = { id: string; name: string };
 
@@ -15,6 +16,7 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [productId, setProductId] = useState("");
+  const toast = useToast();
 
   // Form State
   const [name, setName] = useState("");
@@ -66,14 +68,14 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
         }
       } catch (err) {
         console.error(err);
-        alert("Failed to load product");
+        toast.error("Load Failed", "Failed to load product data.");
         router.push("/admin/products");
       } finally {
         setLoading(false);
       }
     }
     load();
-  }, [router, token, params]);
+  }, [router, token, params, toast]);
 
   function addSpec() {
     setSpecs([...specs, { key: "", value: "" }]);
@@ -113,8 +115,9 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
       });
 
       router.push("/admin/products");
+      toast.success("Product Updated", "Product has been updated successfully.");
     } catch (err) {
-      alert("Failed to update product");
+      toast.error("Update Failed", "Failed to update product. Please try again.");
       console.error(err);
     } finally {
       setSaving(false);

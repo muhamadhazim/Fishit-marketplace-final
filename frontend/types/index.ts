@@ -13,6 +13,7 @@ export interface Product {
   stock?: number;
   specifications?: Record<string, unknown>;
   category: Category | null;
+  seller?: { username: string; id: string } | null;
   is_active?: boolean;
 }
 
@@ -30,5 +31,5 @@ export interface Transaction {
   items: TransactionItem[];
   total_transfer: number;
   payment_deadline: Date;
-  status: 'Pending' | 'Processing' | 'Success' | 'Failed' | 'Cancelled';
+  status: 'Pending' | 'Paid' | 'Processing' | 'Success' | 'Failed' | 'Cancelled' | 'Expired';
 }

@@ -67,6 +67,7 @@ export const useCart = create<CartState>()(
     }),
     {
       name: 'cart-storage',
+      partialize: (state) => ({ items: state.items }), // Only persist items, not isOpen
     }
   )
 )

@@ -99,16 +99,22 @@ export default function GameCard({ product }: { product: Product }) {
           </div>
 
           {/* Stock Badge - Push to bottom with margin-top auto */}
-          <div className="mt-auto pt-3">
+          <div className="mt-auto pt-3 flex flex-wrap gap-2">
             {stock !== undefined && (
               <span className={`
                 inline-flex items-center rounded-lg px-2.5 py-1 text-xs font-semibold
-                ${stock > 0 
-                  ? 'bg-web3-accent-green/10 border border-web3-accent-green/30 text-web3-accent-green' 
+                ${stock > 0
+                  ? 'bg-web3-accent-green/10 border border-web3-accent-green/30 text-web3-accent-green'
                   : 'bg-red-500/10 border border-red-500/30 text-red-400'
                 }
               `}>
-                {stock > 0 ? `${stock} in stock` : 'Out of stock'}
+                {stock > 0 ? `${stock} Tersedia` : 'Stok Habis'}
+              </span>
+            )}
+            {/* Seller Badge */}
+            {product.seller && (
+              <span className="inline-flex items-center rounded-lg px-2.5 py-1 text-xs font-semibold bg-web3-accent-purple/10 border border-web3-accent-purple/30 text-web3-accent-purple">
+                PENJUAL: {product.seller.username}
               </span>
             )}
           </div>
@@ -131,9 +137,9 @@ export default function GameCard({ product }: { product: Product }) {
         {stock > 0 && (
           <span className="absolute inset-0 bg-white/20 rounded-xl scale-0 group-hover/btn:scale-100 transition-transform duration-500 ease-out"></span>
         )}
-        
+
         <ShoppingCart className={`h-4 w-4 relative z-10 transition-transform ${stock > 0 ? 'group-hover/btn:rotate-12 group-hover/btn:scale-110' : ''}`} />
-        <span className="relative z-10">{stock === 0 ? 'Out of Stock' : 'Add to Cart'}</span>
+        <span className="relative z-10">{stock === 0 ? 'Stok Habis' : 'Tambah ke Keranjang'}</span>
       </button>
     </div>
   )
