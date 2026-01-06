@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/ui/Navbar";
 import Footer from "@/components/ui/Footer";
+import { ToastProvider } from "@/components/ui/Toast";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,11 +15,52 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+// Gunakan URL produksi atau fallback ke localhost saat dev
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
+  ? process.env.NEXT_PUBLIC_BASE_URL
+  : process.env.NODE_ENV === 'production'
+    ? 'https://fishit.store' // Ganti dengan domain default jika env tidak ada
+    : 'http://localhost:3000';
+
 export const metadata: Metadata = {
-  title: "Fishit Marketplace",
-  description: "Topup Game Roblox Terpercaya",
-  verification: {
-    google: "8rd5dBDaRpEkgnmzNdJiyUDO4yVN-xIv2cm7jh47MOg",
+  metadataBase: new URL(BASE_URL),
+  title: {
+    default: "FishIt Marketplace - Jual Beli Akun & Item Game Terpercaya",
+    template: "%s | FishIt Marketplace"
+  },
+  description: "Marketplace terbaik untuk jual beli akun Roblox, item game, dan topup terpercaya di Indonesia. Transaksi aman, cepat, dan otomatis.",
+  keywords: ["Jual Akun Roblox", "Blox Fruits", "Topup Game", "Item Roblox Murah", "FishIt Marketplace"],
+  authors: [{ name: "FishIt Team" }],
+  openGraph: {
+    type: "website",
+    locale: "id_ID",
+    url: BASE_URL,
+    siteName: "FishIt Marketplace",
+    images: [
+      {
+        url: "/images/og-image.jpg", // Pastikan file ini ada di folder public/images
+        width: 1200,
+        height: 630,
+        alt: "FishIt Marketplace",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "FishIt Marketplace",
+    description: "Jual Beli Akun Roblox Terpercaya",
+    images: ["/images/og-image.jpg"], // Menggunakan gambar yang sama
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
   },
 };
 
@@ -33,6 +75,7 @@ export default function RootLayout({
         suppressHydrationWarning
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-[#0f172a] to-black text-slate-100`}
       >
+        <ToastProvider>
         <div
           className="pointer-events-none fixed inset-0 opacity-20"
           style={{
@@ -44,6 +87,7 @@ export default function RootLayout({
         <Navbar />
         {children}
         <Footer />
+        </ToastProvider>
       </body>
     </html>
   );

@@ -26,24 +26,12 @@ export default function Navbar() {
     window.location.href = "/admin/login";
   }
 
-  function handleProductsClick(e: React.MouseEvent<HTMLAnchorElement>) {
-    e.preventDefault();
-    const marketSection = document.getElementById('market');
-    if (marketSection) {
-      marketSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      setIsMobileMenuOpen(false);
-    } else {
-      // If not on homepage, navigate to homepage with hash
-      window.location.href = '/#market';
-    }
-  }
-
   const cartCount = items.reduce((acc, item) => acc + item.quantity, 0);
 
   const navLinks = [
-    { name: "Products", href: "/#market" },
-    { name: "Check Order", href: "/check-order" },
-    { name: "About", href: "/about" },
+    { name: "Produk", href: "/products" },
+    { name: "Cek Pesanan", href: "/check-order" },
+    { name: "Tentang", href: "/about" },
   ];
 
   // Check for token in localStorage on mount to ensure hydration matches
@@ -75,7 +63,6 @@ export default function Navbar() {
             <Link
               key={link.name}
               href={link.href}
-              onClick={link.name === 'Products' ? handleProductsClick : undefined}
               className="text-sm font-medium text-web3-text-secondary transition-all hover:text-web3-accent-cyan hover:glow-cyan px-3 py-2 rounded-lg"
             >
               {link.name}
@@ -118,7 +105,7 @@ export default function Navbar() {
               href="/admin/login"
               className="hidden md:block rounded-xl bg-gradient-to-r from-web3-accent-green to-web3-accent-cyan px-6 py-2.5 text-sm font-bold text-white transition-all hover:scale-105 hover:shadow-glow-green"
             >
-              Log In
+              Masuk
             </Link>
           )}
 
@@ -139,7 +126,7 @@ export default function Navbar() {
             <Link
               key={link.name}
               href={link.href}
-              onClick={link.name === 'Products' ? handleProductsClick : () => setIsMobileMenuOpen(false)}
+              onClick={() => setIsMobileMenuOpen(false)}
               className="block w-full rounded-xl px-4 py-3 text-sm font-bold text-web3-text-secondary hover:bg-white/5 hover:text-web3-accent-cyan transition-all"
             >
               {link.name}
@@ -162,7 +149,7 @@ export default function Navbar() {
                 }}
                 className="w-full text-left rounded-xl px-4 py-3 text-sm font-bold text-red-400 hover:bg-red-500/10 transition-all"
               >
-                Log Out
+                Keluar
               </button>
             </>
           ) : (
@@ -171,7 +158,7 @@ export default function Navbar() {
               onClick={() => setIsMobileMenuOpen(false)}
               className="block w-full text-center rounded-xl bg-gradient-to-r from-web3-accent-green to-web3-accent-cyan px-4 py-3 text-sm font-bold text-white shadow-glow-green"
             >
-              Log In
+              Masuk
             </Link>
           )}
         </div>

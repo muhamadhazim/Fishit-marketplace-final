@@ -6,6 +6,7 @@ import { useAuth, type AuthState } from "@/store/auth";
 import { ArrowLeft, Plus, Trash2, Save } from "lucide-react";
 import Link from "next/link";
 import FileUpload from "@/components/ui/FileUpload";
+import { useToast } from "@/components/ui/Toast";
 
 type Category = { id: string; name: string };
 
@@ -14,6 +15,7 @@ export default function NewProductPage() {
   const token = useAuth((s: AuthState) => s.token);
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(false);
+  const toast = useToast();
 
   // Form State
   const [name, setName] = useState("");
@@ -87,8 +89,9 @@ export default function NewProductPage() {
       });
 
       router.push("/admin/products");
+      toast.success("Product Created", `"${name}" has been created successfully.`);
     } catch (err) {
-      alert("Failed to create product");
+      toast.error("Creation Failed", "Failed to create product. Please try again.");
       console.error(err);
     } finally {
       setLoading(false);

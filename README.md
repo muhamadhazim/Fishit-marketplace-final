@@ -1,11 +1,12 @@
 # 🐟 Fishit Marketplace
 
-> A modern, full-stack e-commerce platform for Roblox FishIt game items with automated email notifications and secure payment tracking.
+> A modern, full-stack e-commerce platform for Roblox top-up game items with iPaymu payment gateway, real-time payment tracking, and cloud-based image storage.
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Node](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg)
 ![Next.js](https://img.shields.io/badge/Next.js-14-black)
 ![MongoDB](https://img.shields.io/badge/MongoDB-6.0-green)
+![Vercel](https://img.shields.io/badge/Vercel-Ready-black)
 
 ---
 
@@ -28,44 +29,62 @@
 ## ✨ Features
 
 ### Customer Features
-- 🛍️ **Product Marketplace** - Browse and purchase FishIt game items
-- 🛒 **Smart Shopping Cart** - Real-time cart management with persistent state
-- 💳 **Unique Transaction Codes** - Automated unique payment codes for easy verification
-- ⏰ **Payment Deadline** - 2-hour payment window with countdown timer
-- 📧 **Email Notifications** - Automated invoice delivery via Brevo SMTP
-- 📱 **Responsive Design** - Beautiful UI with glassmorphism effects
-- 🔍 **Order Tracking** - Check order status using invoice number
-- 🎨 **Modern UI/UX** - Web3-inspired design with smooth animations
+- 🛍️ **Product Marketplace** - Browse and purchase game top-up items (Robux, accounts, etc.)
+- 🛒 **Smart Shopping Cart** - Real-time cart validation with stock checking
+- 💳 **iPaymu Payment Gateway** - Secure payment with multiple methods (VA, e-wallet, QRIS)
+- ⏰ **Real-time Payment Tracking** - Auto-refresh payment status every 5 seconds
+- 📧 **Email Notifications** - Automated invoice and payment link delivery via Brevo
+- 📱 **Responsive Design** - Beautiful Web3-inspired UI with glassmorphism
+- 🔍 **Order Tracking** - Check order status using invoice number or email
+- 🎨 **Modern UI/UX** - Smooth animations with Framer Motion
+- 🔄 **Payment Waiting Page** - Stay on website while paying (opens iPaymu in new tab)
+
+### Seller Features
+- 🏪 **Seller Dashboard** - Personal sales analytics and order management
+- 📦 **Product Management** - Create, update, and manage your own products
+- 📊 **Sales Analytics** - Track revenue, orders, and top-selling products
+- 💰 **Transaction Monitoring** - Real-time order status updates
+- ✅ **Order Processing** - Mark orders as processing/success
+- 📈 **Performance Metrics** - Revenue trends and success rates
 
 ### Admin Features
-- 🎛️ **Admin Dashboard** - Real-time analytics and statistics
-- 📦 **Product Management** - CRUD operations for products
+- 🎛️ **Admin Dashboard** - Global analytics and platform monitoring
+- 🔐 **Seller Management** - Register and manage seller accounts
 - 📂 **Category Management** - Organize products by categories
-- 📊 **Transaction Monitoring** - Track all orders and payments
-- 🖼️ **Image Upload** - Direct file upload for product images
-- 📈 **Sales Analytics** - Visual charts and performance metrics
+- 🖼️ **Cloud Image Upload** - Cloudinary integration for optimized images
+- 🚫 **Product Moderation** - Ban/unban products (safety control)
+- 📊 **Platform Analytics** - Visual charts with seller filters
+- 💳 **Payment Monitoring** - Track all iPaymu transactions and callbacks
 
 ---
 
 ## 🛠️ Tech Stack
 
 ### Frontend
-- **Framework**: Next.js 14 (App Router)
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS
-- **State Management**: Zustand
+- **Framework**: Next.js 14 (App Router) with TypeScript
+- **Styling**: Tailwind CSS with custom Web3 theme
+- **State Management**: Zustand (cart, auth)
 - **Animations**: Framer Motion
 - **Icons**: Lucide React
 - **HTTP Client**: Axios
+- **Form Handling**: React Hook Form (optional)
 
 ### Backend
-- **Runtime**: Node.js
+- **Runtime**: Node.js 18+
 - **Framework**: Express.js
 - **Database**: MongoDB with Mongoose
 - **Authentication**: JWT (JSON Web Tokens)
-- **File Upload**: Multer
+- **File Upload**: Multer + Cloudinary (serverless-ready)
+- **Payment Gateway**: iPaymu (Redirect Payment API)
 - **Email Service**: Brevo SMTP (Nodemailer)
-- **Environment Variables**: dotenv
+- **Environment**: dotenv
+
+### Cloud Services
+- **Image Storage**: Cloudinary (25GB free tier)
+- **Payment**: iPaymu Sandbox/Production
+- **Email**: Brevo (300 emails/day free)
+- **Deployment**: Vercel (Frontend + Backend serverless)
+- **Database**: MongoDB Atlas (512MB free tier)
 
 ---
 
@@ -175,13 +194,41 @@ PORT=4000
 BREVO_SMTP_USER=your_smtp_login@smtp-brevo.com
 BREVO_SMTP_KEY=your-brevo-smtp-key
 BREVO_SENDER_EMAIL=your-verified-email@gmail.com
+
+# iPaymu Payment Gateway
+IPAYMU_VA=your_virtual_account_number
+IPAYMU_API_KEY=your_ipaymu_api_key
+IPAYMU_PRODUCTION=false  # Set to true for production
+
+# Application URLs
+BACKEND_URL=http://localhost:4000
+FRONTEND_URL=http://localhost:3000
+
+# Cloudinary (Image Upload)
+CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
+CLOUDINARY_API_KEY=your_cloudinary_api_key
+CLOUDINARY_API_SECRET=your_cloudinary_api_secret
 ```
 
-**Get Brevo SMTP Credentials:**
+**Get Service Credentials:**
+
+**Brevo SMTP:**
 1. Sign up at [Brevo](https://www.brevo.com)
 2. Go to Settings → SMTP & API
 3. Generate SMTP Key
 4. Add and verify sender email
+
+**iPaymu Payment Gateway:**
+1. Sign up at [iPaymu Sandbox](https://sandbox.ipaymu.com) or [Production](https://my.ipaymu.com)
+2. Go to Integration menu
+3. Copy VA (Virtual Account) and API Key
+4. For production, set `IPAYMU_PRODUCTION=true`
+
+**Cloudinary Image Storage:**
+1. Sign up at [Cloudinary](https://cloudinary.com)
+2. Go to Dashboard
+3. Copy Cloud Name, API Key, and API Secret
+4. Free tier: 25GB storage + 25GB bandwidth/month
 
 ### Frontend Configuration
 

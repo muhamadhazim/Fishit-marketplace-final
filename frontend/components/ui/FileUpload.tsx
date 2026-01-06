@@ -3,6 +3,7 @@
 import { useState, useRef } from "react";
 import { Upload, X, Image as ImageIcon, Loader2 } from "lucide-react";
 import api from "@/lib/api";
+import { useToast } from "@/components/ui/Toast";
 
 interface FileUploadProps {
   onUpload: (url: string) => void;
@@ -15,6 +16,7 @@ export default function FileUpload({ onUpload, defaultUrl = "", className = "" }
   const [loading, setLoading] = useState(false);
   const [dragActive, setDragActive] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const toast = useToast();
 
   const handleDrag = (e: React.DragEvent) => {
     e.preventDefault();
@@ -44,7 +46,7 @@ export default function FileUpload({ onUpload, defaultUrl = "", className = "" }
 
   const handleFile = async (file: File) => {
     if (!file.type.startsWith("image/")) {
-      alert("Please upload an image file");
+      toast.warning("File Tidak Valid", "Mohon unggah file gambar");
       return;
     }
 
@@ -63,7 +65,7 @@ export default function FileUpload({ onUpload, defaultUrl = "", className = "" }
       onUpload(url);
     } catch (error) {
       console.error("Upload failed:", error);
-      alert("Failed to upload image");
+      toast.error("Upload Gagal", "Gagal mengunggah gambar. Silakan coba lagi.");
     } finally {
       setLoading(false);
     }
@@ -103,7 +105,7 @@ export default function FileUpload({ onUpload, defaultUrl = "", className = "" }
         {loading ? (
           <div className="flex flex-col items-center gap-2 text-web3-text-secondary">
             <Loader2 className="h-8 w-8 animate-spin text-web3-accent-cyan" />
-            <p className="text-sm">Uploading...</p>
+            <p className="text-sm">Mengunggah...</p>
           </div>
         ) : preview ? (
           <div className="relative h-full w-full p-2">
@@ -125,9 +127,9 @@ export default function FileUpload({ onUpload, defaultUrl = "", className = "" }
               <Upload className="h-6 w-6 text-web3-accent-cyan" />
             </div>
             <p className="text-sm font-semibold">
-              <span className="text-web3-accent-cyan">Click to upload</span> or drag and drop
+              <span className="text-web3-accent-cyan">Klik untuk unggah</span> atau tarik dan lepas
             </p>
-            <p className="text-xs text-web3-text-muted">SVG, PNG, JPG or GIF (max. 5MB)</p>
+            <p className="text-xs text-web3-text-muted">SVG, PNG, JPG atau GIF (maks. 5MB)</p>
           </div>
         )}
       </div>

@@ -30,10 +30,10 @@ export default function AboutPage() {
       <div className="mx-auto max-w-6xl">
         <div className="text-center mb-16">
           <h1 className="text-5xl font-bold mb-4">
-            <span className="gradient-text">Our Team</span>
+            <span className="gradient-text">Tim Kami</span>
           </h1>
           <p className="text-xl text-web3-text-secondary max-w-2xl mx-auto">
-            Meet the passionate developers behind Fishit Marketplace
+            Kenali pengembang bersemangat di balik Fishit Marketplace
           </p>
           <div className="mt-4 h-1 w-24 bg-gradient-to-r from-web3-accent-cyan to-web3-accent-purple mx-auto rounded-full"></div>
         </div>
@@ -75,7 +75,7 @@ export default function AboutPage() {
                       {member.contribution}
                     </span>
                     <span className="text-web3-text-secondary text-sm">
-                      Contribution
+                      Kontribusi
                     </span>
                   </div>
                 </div>

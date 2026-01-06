@@ -36,34 +36,34 @@ export default function Hero() {
             className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-web3-accent-purple/20 to-web3-accent-cyan/20 border border-web3-accent-cyan/30 px-4 py-2 mb-6"
           >
             <Sparkles className="h-4 w-4 text-web3-accent-cyan" />
-            <span className="text-sm font-semibold text-web3-accent-cyan">Trusted by 10,000+ Players</span>
+            <span className="text-sm font-semibold text-web3-accent-cyan">Dipercaya oleh 10.000+ Pemain</span>
           </motion.div>
 
           <h1 className="text-4xl font-extrabold tracking-tight sm:text-7xl mb-6 break-words">
-            Level Up Your{" "}
+            Tingkatkan Pengalaman{" "}
             <span className="gradient-text block sm:inline">FishIt</span>
-            {" "}Experience
+            {" "}Anda
           </h1>
-          
+
           <p className="mx-auto max-w-2xl text-lg text-web3-text-secondary leading-relaxed mb-10 px-2">
-            The #1 Marketplace for Roblox FishIt. Get instant delivery on Mythic items, high-tier accounts, and millions of coins. 
-            <span className="text-web3-accent-cyan font-semibold block sm:inline mt-2 sm:mt-0"> Secure, fast, and reliable.</span>
+            Marketplace #1 untuk Roblox FishIt. Dapatkan pengiriman instan untuk item Mythic, akun level tinggi, dan jutaan koin.
+            <span className="text-web3-accent-cyan font-semibold block sm:inline mt-2 sm:mt-0"> Aman, cepat, dan terpercaya.</span>
           </p>
-          
+
           <div className="flex flex-col sm:flex-row justify-center gap-4 px-4">
             <button
               onClick={scrollToMarket}
               className="group w-full sm:w-auto rounded-xl bg-gradient-to-r from-web3-accent-cyan to-web3-accent-purple px-8 py-4 text-base font-bold text-white transition-all hover:scale-105 hover:shadow-glow-cyan inline-flex items-center justify-center gap-2 cursor-pointer"
             >
-              Start Shopping
+              Mulai Belanja
               <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
             </button>
-            
+
             <button
               onClick={scrollToMarket}
               className="w-full sm:w-auto rounded-xl border-2 border-web3-accent-cyan/30 bg-web3-accent-cyan/10 px-8 py-4 text-base font-bold text-web3-accent-cyan backdrop-blur-sm transition-all hover:bg-web3-accent-cyan/20 hover:border-web3-accent-cyan/50 hover:shadow-glow-cyan flex items-center justify-center cursor-pointer"
             >
-              View Collection
+              Lihat Koleksi
             </button>
           </div>
 
@@ -71,15 +71,15 @@ export default function Hero() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 mt-12 pt-12 border-t border-white/10">
             <div className="p-2">
               <div className="text-3xl font-bold gradient-text">10K+</div>
-              <div className="text-sm text-web3-text-secondary mt-1">Happy Players</div>
+              <div className="text-sm text-web3-text-secondary mt-1">Pemain Puas</div>
             </div>
             <div className="p-2">
               <div className="text-3xl font-bold gradient-text">24/7</div>
-              <div className="text-sm text-web3-text-secondary mt-1">Support</div>
+              <div className="text-sm text-web3-text-secondary mt-1">Layanan</div>
             </div>
             <div className="p-2">
               <div className="text-3xl font-bold gradient-text">99.9%</div>
-              <div className="text-sm text-web3-text-secondary mt-1">Success Rate</div>
+              <div className="text-sm text-web3-text-secondary mt-1">Tingkat Sukses</div>
             </div>
           </div>
         </motion.div>
