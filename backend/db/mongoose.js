@@ -17,7 +17,9 @@ async function connect(uri) {
   // Return pending connection promise if connecting
   if (!cached.promise) {
     const opts = {
-      bufferCommands: false,
+      // Keep bufferCommands enabled to queue operations until connection is ready
+      // Setting to false causes "buffering timed out" errors in serverless
+      bufferCommands: true,
       // Disable autoIndex in production for performance
       autoIndex: process.env.NODE_ENV !== 'production',
       // Connection timeout settings for serverless
