@@ -4,7 +4,7 @@ import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import api from "@/lib/api";
 import { formatDate } from "@/lib/date";
-import { Search, Package, Clock, CheckCircle, XCircle, AlertCircle, CreditCard, Mail, FileText } from "lucide-react";
+import { Search, Package, Clock, CheckCircle, XCircle, AlertCircle, CreditCard } from "lucide-react";
 import { motion } from "framer-motion";
 
 type Transaction = {
@@ -27,8 +27,7 @@ function formatIDR(n: number) {
 
 function CheckOrderContent() {
   const searchParams = useSearchParams();
-  const [email, setEmail] = useState("");
-  const [invoiceNumber, setInvoiceNumber] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -38,14 +37,19 @@ function CheckOrderContent() {
   useEffect(() => {
     const invoiceParam = searchParams.get("invoice");
     if (invoiceParam) {
-      setInvoiceNumber(invoiceParam);
+      setSearchQuery(invoiceParam);
       // Auto search if invoice is provided
-      handleSearchWithParams(invoiceParam, "");
+      handleSearchWithQuery(invoiceParam);
     }
   }, [searchParams]);
 
-  async function handleSearchWithParams(invoice: string, emailValue: string) {
-    if (!invoice && !emailValue) return;
+  // Detect if input is email or invoice number
+  const isEmail = (input: string) => {
+    return input.includes("@") && input.includes(".");
+  };
+
+  async function handleSearchWithQuery(query: string) {
+    if (!query.trim()) return;
 
     setLoading(true);
     setError("");
@@ -53,10 +57,11 @@ function CheckOrderContent() {
     setHasSearched(true);
 
     try {
-      const res = await api.post("/api/transactions/check-order", {
-        email: emailValue || undefined,
-        invoice_number: invoice || undefined
-      });
+      const payload = isEmail(query)
+        ? { email: query.trim() }
+        : { invoice_number: query.trim() };
+
+      const res = await api.post("/api/transactions/check-order", payload);
       setTransactions(res.data.transactions);
     } catch (err: any) {
       if (err.response && err.response.status === 404) {
@@ -71,7 +76,7 @@ function CheckOrderContent() {
 
   async function handleSearch(e: React.FormEvent) {
     e.preventDefault();
-    handleSearchWithParams(invoiceNumber, email);
+    handleSearchWithQuery(searchQuery);
   }
 
   const getStatusColor = (status: string) => {
@@ -129,38 +134,23 @@ function CheckOrderContent() {
             Cek <span className="gradient-text">Pesanan</span>
           </h1>
           <p className="text-web3-text-secondary text-lg">
-            Masukkan nomor invoice atau email untuk melihat status pesanan Anda.
+            Lacak status pesanan Anda dengan nomor invoice atau email.
           </p>
         </div>
 
         {/* Search Form */}
         <div className="mx-auto max-w-2xl mb-16">
           <form onSubmit={handleSearch} className="space-y-4">
-            {/* Invoice Input */}
+            {/* Single Unified Input */}
             <div className="relative group">
               <div className="absolute inset-0 bg-gradient-to-r from-web3-accent-cyan to-web3-accent-purple rounded-xl blur opacity-10 group-hover:opacity-20 transition-opacity"></div>
               <div className="relative flex items-center glass-card rounded-xl border border-white/10">
-                <FileText className="ml-4 h-5 w-5 text-web3-text-secondary" />
+                <Search className="ml-4 h-5 w-5 text-web3-text-secondary" />
                 <input
                   type="text"
-                  value={invoiceNumber}
-                  onChange={(e) => setInvoiceNumber(e.target.value)}
-                  placeholder="Nomor Invoice (INV-2024...)"
-                  className="w-full bg-transparent border-none px-4 py-3.5 text-white placeholder-web3-text-muted focus:outline-none focus:ring-0"
-                />
-              </div>
-            </div>
-
-            {/* Email Input */}
-            <div className="relative group">
-              <div className="absolute inset-0 bg-gradient-to-r from-web3-accent-purple to-web3-accent-cyan rounded-xl blur opacity-10 group-hover:opacity-20 transition-opacity"></div>
-              <div className="relative flex items-center glass-card rounded-xl border border-white/10">
-                <Mail className="ml-4 h-5 w-5 text-web3-text-secondary" />
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Email (opsional, untuk keamanan)"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Masukkan Nomor Invoice atau Email"
                   className="w-full bg-transparent border-none px-4 py-3.5 text-white placeholder-web3-text-muted focus:outline-none focus:ring-0"
                 />
               </div>
@@ -169,7 +159,7 @@ function CheckOrderContent() {
             {/* Search Button */}
             <button
               type="submit"
-              disabled={loading || (!invoiceNumber && !email)}
+              disabled={loading || !searchQuery.trim()}
               className="w-full rounded-xl bg-gradient-to-r from-web3-accent-cyan to-web3-accent-purple px-8 py-4 font-bold text-white transition-all hover:scale-[1.02] hover:shadow-glow-cyan disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-2"
             >
               <Search className="h-5 w-5" />
