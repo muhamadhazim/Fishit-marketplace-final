@@ -11,23 +11,8 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))  // For iPaymu callback (form data)
 // Removed: Static file serving - using Cloudinary for images
 
-// Routes
-app.use('/api/products', require('./routes/product.routes'))
-app.use('/api/categories', require('./routes/category.routes'))
-app.use('/api/auth', require('./routes/auth.routes'))
-app.use('/api/admin', require('./routes/admin.routes'))
-app.use('/api/transactions', require('./routes/transaction.routes'))
-app.use('/api/upload', require('./routes/upload.routes'))
-app.use('/api/payouts', require('./routes/payout.routes'))
-app.use('/api/users', require('./routes/user.routes'))
-
-// Health check endpoint
-app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', message: 'Server is running' })
-})
-
 // Database connection middleware for serverless
-// Connect to MongoDB on first request (lazy initialization)
+// MUST BE BEFORE ROUTES to ensure connection is ready
 app.use(async (req, res, next) => {
   try {
     await connect(config.mongoUri)
@@ -40,6 +25,21 @@ app.use(async (req, res, next) => {
     })
   }
 })
+
+// Health check endpoint
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'ok', message: 'Server is running' })
+})
+
+// Routes
+app.use('/api/products', require('./routes/product.routes'))
+app.use('/api/categories', require('./routes/category.routes'))
+app.use('/api/auth', require('./routes/auth.routes'))
+app.use('/api/admin', require('./routes/admin.routes'))
+app.use('/api/transactions', require('./routes/transaction.routes'))
+app.use('/api/upload', require('./routes/upload.routes'))
+app.use('/api/payouts', require('./routes/payout.routes'))
+app.use('/api/users', require('./routes/user.routes'))
 
 // For local development: Connect at startup
 if (process.env.VERCEL !== '1') {
