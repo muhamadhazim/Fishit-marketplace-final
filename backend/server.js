@@ -26,14 +26,31 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'Server is running' })
 })
 
-// Database connection
-connect(config.mongoUri)
-  .then(() => {
-    console.log('MongoDB connected')
-  })
-  .catch((err) => {
-    console.error('MongoDB connection error:', err)
-  })
+// Database connection middleware for serverless
+// Connect to MongoDB on first request (lazy initialization)
+app.use(async (req, res, next) => {
+  try {
+    await connect(config.mongoUri)
+    next()
+  } catch (err) {
+    console.error('MongoDB connection failed:', err)
+    res.status(503).json({ 
+      message: 'Database connection failed',
+      error: process.env.NODE_ENV === 'production' ? undefined : err.message
+    })
+  }
+})
+
+// For local development: Connect at startup
+if (process.env.VERCEL !== '1') {
+  connect(config.mongoUri)
+    .then(() => {
+      console.log('MongoDB connected')
+    })
+    .catch((err) => {
+      console.error('MongoDB connection error:', err)
+    })
+}
 
 // For Vercel serverless: Export app (no app.listen needed)
 // For local development: Start server if not in Vercel

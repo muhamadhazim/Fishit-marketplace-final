@@ -8,7 +8,14 @@ const config = {
     mongoUri: process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/fishit_marketplace',
     jwtSecret: process.env.JWT_SECRET || 'dev_secret',
     jwtExpiresIn: process.env.JWT_EXPIRES_IN || '12h',
-    uploadDir: 'uploads'
+    uploadDir: 'uploads',
+    // MongoDB connection options for serverless optimization
+    mongoOptions: {
+        serverSelectionTimeoutMS: 5000,
+        socketTimeoutMS: 45000,
+        maxPoolSize: 10,
+        minPoolSize: 1,
+    }
 };
 
 // Validate required config in production

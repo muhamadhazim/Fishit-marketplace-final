@@ -54,4 +54,4 @@ TransactionSchema.index({ status: 1, seller_id: 1 })
 TransactionSchema.index({ ipaymu_transaction_id: 1 })
 TransactionSchema.index({ ipaymu_session_id: 1 })
 
-module.exports = mongoose.model('Transaction', TransactionSchema)
+module.exports = mongoose.models.Transaction || mongoose.model('Transaction', TransactionSchema)
