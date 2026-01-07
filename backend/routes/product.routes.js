@@ -299,10 +299,28 @@ router.put('/:id', auth, async (req, res) => {
         const { name, price, category_id, image_url, stock, specifications, is_active } = req.body;
         console.log("Update Product:", { id: req.params.id, body: req.body });
 
+        // Delete old image from Cloudinary if seller is changing/removing the image
+        // Handles 3 cases:
+        // 1. image_url changed to new URL → delete old
+        // 2. image_url set to null/empty (clicked X) → delete old
+        // 3. image_url undefined (not in request) → no delete
+        if (image_url !== undefined && image_url !== product.image_url) {
+            if (product.image_url && product.image_url.includes('cloudinary.com')) {
+                try {
+                    const { deleteImage } = require('../services/cloudinary.service');
+                    await deleteImage(product.image_url);
+                    console.log(`Deleted old Cloudinary image: ${product.image_url}`);
+                } catch (err) {
+                    console.error('Error deleting old Cloudinary image:', err);
+                    // Continue with update even if old image delete fails
+                }
+            }
+        }
+
         const update = {};
         if (name != null) update.name = name;
         if (price != null) update.price = price;
-        if (image_url != null) update.image_url = image_url;
+        if (image_url !== undefined) update.image_url = image_url;  // Allow null/empty to remove image
         if (stock != null) update.stock = stock;
         if (specifications != null) update.specifications = specifications;
         if (is_active != null) update.is_active = !!is_active;
